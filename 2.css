@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -500px 0; }
+    100% { background-position: 500px 0; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Mirror shatter animation */
+@keyframes shatter {
+    0% { transform: scaleY(-1) translate(0,0) rotate(0deg); opacity: 0.3; }
+    100% { transform: scaleY(-1) translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(-45deg, #ff4b2b, #ff416c, #1a1a2e, #0f3460);
+    background-size: 300% 300%;
+    animation: gradientShift 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.title {
+    font-size: 4rem;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #fff, #ffb347, #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite, bounce 2s infinite;
+}
+
+/* Mirror shards container */
+.mirror-container {
+    position: relative;
+    display: inline-block;
+}
+
+.shard {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    transform: scaleY(-1);
+    font-size: 4rem;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,179,71,0.6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.3;
+    animation: shatter 1s ease-out forwards;
+    animation-delay: 1.5s;
+}
+
+/* Different shard directions (12 pieces) */
+.shard:nth-child(1)  { --x: -50px; --y: 40px;  --r: -15deg; }
+.shard:nth-child(2)  { --x: 70px;  --y: 60px;  --r: 25deg; }
+.shard:nth-child(3)  { --x: -30px; --y: 80px;  --r: 40deg; }
+.shard:nth-child(4)  { --x: 50px;  --y: 100px; --r: -30deg; }
+.shard:nth-child(5)  { --x: -90px; --y: 120px; --r: 50deg; }
+.shard:nth-child(6)  { --x: 100px; --y: 140px; --r: -45deg; }
+.shard:nth-child(7)  { --x: -60px; --y: 160px; --r: 35deg; }
+.shard:nth-child(8)  { --x: 80px;  --y: 180px; --r: -25deg; }
+.shard:nth-child(9)  { --x: -110px;--y: 200px; --r: 60deg; }
+.shard:nth-child(10) { --x: 120px; --y: 220px; --r: -50deg; }
+.shard:nth-child(11) { --x: -75px; --y: 250px; --r: 15deg; }
+.shard:nth-child(12) { --x: 95px;  --y: 270px; --r: -10deg; }
+
+button {
+    margin-top: 40px;
+    padding: 15px 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    color: white;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 5px 20px rgba(255, 255, 255, 0.1);
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0px 10px 25px rgba(255, 255, 255, 0.3);
+}
