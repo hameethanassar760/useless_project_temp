@@ -1,96 +1,71 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# TYPOFLIP 🎯
 
 
-## Basic Details
-### Team Name: [Name]
+## Hey its just a small funny project where all the inputs are flipped along with some fun games
+
+### Team Name: Null And Void
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Hameetha Nassar -GEC PALAKKAD
+- Member 2: Haleemathul Husna - GEC PALAKKAD
+- 
 
 ### Project Description
-[2-3 lines about what your project does]
+Main Purpose: Let users pick different “flip” modes for text, drawing, speech, or webcam.
 
-### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Options Page:
 
-### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Has buttons to go to different pages:
+
+1. Text Mirroring → likely flips typed text.
+
+
+2. Canvas Drawing Mirroring → flips drawing directions.
+
+
+3. Brain Mirroring → maybe flips speech or decision-making responses.
+
+
+4. Webcam Flipped → probably flips live camera feed horizontally.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
-
-### Implementation
-For Software:
+- HTML
+-CSS
+-JAVASCRIPT
 # Installation
-[commands]
+-https://hameethanassar760.github.io/useless_project_temp/
 
-# Run
-[commands]
 
 ### Project Documentation
 For Software:
+-Text mirroring in action — letters reverse as you type.
+-Drawing board mirroring strokes in real-time.
+-Webcam feed flipped horizontally.
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img title="" alt="" scr=>
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
 *Add caption explaining your workflow*
 
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
 [Add your demo video link here]
 *Explain what the video demonstrates*
 
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Hameetha Nassar: developed the project
+- Haleemathul Husna: designed the project
+- 
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
