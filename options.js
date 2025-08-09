@@ -41,3 +41,22 @@ document.addEventListener("click", () => {
         }
     });
 });
+
+  const cursor = document.querySelector('.custom-cursor');
+
+  // Store the center of the screen as the "origin"
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
+  document.addEventListener('mousemove', (e) => {
+    // Calculate offset from center
+    const offsetX = e.clientX - centerX;
+    const offsetY = e.clientY - centerY;
+
+    // Flip the movement by multiplying by -1
+    const flippedX = centerX - offsetX;
+    const flippedY = centerY - offsetY;
+
+    cursor.style.left = flippedX + 'px';
+    cursor.style.top = flippedY + 'px';
+  });

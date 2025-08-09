@@ -39,6 +39,7 @@ body {
     font-family: 'Poppins', sans-serif;
     color: white;
     overflow: hidden;
+    cursor: none;
 }
 
 .container {
