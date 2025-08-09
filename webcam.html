@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mirror Puzzle Challenge</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+
+<style>
+  @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+  }
+
+  @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+  }
+
+  @keyframes shimmer {
+      0% { background-position: -500px 0; }
+      100% { background-position: 500px 0; }
+  }
+
+  @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+  }
+
+  body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(-45deg, #ff4b2b, #ff416c, #1a1a2e, #0f3460);
+      background-size: 300% 300%;
+      animation: gradientShift 10s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      overflow: hidden;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+  }
+
+  h1.title {
+      font-size: 4rem;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #fff, #ffb347, #fff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite, bounce 2s infinite;
+      margin: 0 0 30px 0;
+      user-select: none;
+  }
+
+  #startBtn, #resetBtn {
+      margin: 10px 10px 40px 10px;
+      padding: 15px 50px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      color: white;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0px 5px 20px rgba(255, 255, 255, 0.1);
+      user-select: none;
+  }
+
+  #startBtn:hover, #resetBtn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0px 10px 25px rgba(255, 255, 255, 0.3);
+  }
+
+  #video {
+      display: none;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+
+  #puzzle {
+      display: grid;
+      grid-template-columns: repeat(3, 120px);
+      grid-template-rows: repeat(3, 120px);
+      gap: 15px;
+      user-select: none;
+      touch-action: manipulation;
+      justify-content: center;
+  }
+
+  .piece {
+      width: 120px;
+      height: 120px;
+      background-size: 360px 360px;
+      border-radius: 15px;
+      border: 2px solid rgba(255,255,255,0.3);
+      box-shadow:
+        inset 0 0 10px rgba(255,255,255,0.2),
+        0 6px 10px rgba(0,0,0,0.5);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-repeat: no-repeat;
+      transform-style: preserve-3d;
+      perspective: 600px;
+  }
+
+  .piece:hover {
+      box-shadow:
+        inset 0 0 20px rgba(255,255,255,0.4),
+        0 10px 20px rgba(0,0,0,0.6);
+      transform: scale(1.05);
+      z-index: 10;
+  }
+
+  .flippedH {
+      transform: scaleX(-1);
+  }
+
+  .flippedV {
+      transform: scaleY(-1);
+  }
+
+  #message {
+      margin-top: 30px;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #ffb347;
+      text-shadow: 0 0 5px #ffb347;
+      min-height: 2rem;
+      user-select: none;
+  }
+</style>
+
+</head>
+<body>
+
+<h1 class="title">Mirror Puzzle Challenge</h1>
+
+<button id="startBtn">Start Camera & Capture</button>
+<button id="resetBtn" disabled>Reset Puzzle</button>
+
+<video id="video" autoplay width="360" height="360"></video>
+
+<div id="puzzle"></div>
+
+<div id="message"></div>
+
+<script>
+  const startBtn = document.getElementById('startBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const video = document.getElementById('video');
+  const puzzle = document.getElementById('puzzle');
+  const message = document.getElementById('message');
+
+  let stream;
+  let pieces = [];
+  let flippedStates = [];
+  let dragSrcIndex = null;
+
+  function shuffle(array) {
+    for(let i = array.length -1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i+1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  startBtn.onclick = async () => {
+    startBtn.disabled = true;
+    message.textContent = "Starting camera...";
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { width: 360, height: 360 } });
+      video.srcObject = stream;
+      video.style.display = "block";
+
+      message.textContent = "Get ready! Capturing image in 3 seconds...";
+      await new Promise(r => setTimeout(r, 3000));
+
+      captureAndSetupPuzzle();
+    } catch (e) {
+      message.textContent = "Camera error: " + e.message;
+      startBtn.disabled = false;
+    }
+  };
+
+  function captureAndSetupPuzzle() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 360;
+    canvas.height = 360;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    video.style.display = "none";
+    stopStream();
+
+    const img = new Image();
+    img.src = canvas.toDataURL();
+
+    img.onload = () => {
+      setupPuzzle(img);
+    };
+  }
+
+  function stopStream() {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      stream = null;
+    }
+  }
+
+  function setupPuzzle(img) {
+    puzzle.innerHTML = '';
+    pieces = [];
+    flippedStates = [];
+    message.textContent = "";
+
+    const size = 3; // 3x3 grid
+    const pieceSize = 120;
+
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        const index = row * size + col;
+        const piece = document.createElement('div');
+        piece.classList.add('piece');
+        piece.style.backgroundImage = `url(${img.src})`;
+        piece.style.backgroundPosition = `-${col * pieceSize}px -${row * pieceSize}px`;
+        piece.dataset.index = index;
+        piece.dataset.correctIndex = index;
+
+        const flipType = Math.floor(Math.random() * 3);
+        if (flipType === 1) {
+          piece.classList.add('flippedH');
+          flippedStates[index] = 'H';
+        } else if (flipType === 2) {
+          piece.classList.add('flippedV');
+          flippedStates[index] = 'V';
+        } else {
+          flippedStates[index] = 'N';
+        }
+
+        pieces.push(piece);
+      }
+    }
+
+    shuffle(pieces);
+    pieces.forEach(piece => puzzle.appendChild(piece));
+
+    addEventListeners();
+    resetBtn.disabled = false;
+  }
+
+  function addEventListeners() {
+    puzzle.querySelectorAll('.piece').forEach(piece => {
+      piece.onclick = () => {
+        const idx = Array.from(puzzle.children).indexOf(piece);
+        toggleFlip(piece, idx);
+        checkSolved();
+      };
+
+      piece.setAttribute('draggable', true);
+
+      piece.addEventListener('dragstart', (e) => {
+        dragSrcIndex = Array.from(puzzle.children).indexOf(piece);
+        e.dataTransfer.effectAllowed = 'move';
+      });
+
+      piece.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+      });
+
+      piece.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const dragTargetIndex = Array.from(puzzle.children).indexOf(piece);
+        swapPieces(dragSrcIndex, dragTargetIndex);
+        checkSolved();
+      });
+    });
+  }
+
+  function toggleFlip(piece, idx) {
+    const currentFlip = flippedStates[idx];
+    if (currentFlip === 'N') {
+      piece.classList.add('flippedH');
+      flippedStates[idx] = 'H';
+    } else if (currentFlip === 'H') {
+      piece.classList.remove('flippedH');
+      piece.classList.add('flippedV');
+      flippedStates[idx] = 'V';
+    } else {
+      piece.classList.remove('flippedV');
+      flippedStates[idx] = 'N';
+    }
+  }
+
+  function swapPieces(i, j) {
+    if (i === j) return;
+    const children = Array.from(puzzle.children);
+    const pieceA = children[i];
+    const pieceB = children[j];
+
+    puzzle.insertBefore(pieceB, pieceA);
+    puzzle.insertBefore(pieceA, children[j + 1] || null);
+  }
+
+  function checkSolved() {
+    const children = Array.from(puzzle.children);
+    for (let i = 0; i < children.length; i++) {
+      const piece = children[i];
+      const correctIndex = parseInt(piece.dataset.correctIndex, 10);
+      if (i !== correctIndex) return false;
+      if (flippedStates[i] !== 'N') return false;
+    }
+    message.textContent = "🎉 Congratulations! You solved the puzzle!";
+    return true;
+  }
+
+  resetBtn.onclick = () => {
+    startBtn.disabled = false;
+    resetBtn.disabled = true;
+    puzzle.innerHTML = '';
+    message.textContent = '';
+  };
+</script>
+
+</body>
+</html>
