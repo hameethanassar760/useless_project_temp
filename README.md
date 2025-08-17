@@ -5,6 +5,7 @@
 
 
 ## Hey its just a small funny project where all the inputs are flipped along with some fun games
+TRY IT: https://hameethanassar760.github.io/useless_project_temp/
 
 ### Team Name: Null And Void
 
@@ -49,17 +50,11 @@ For Software:
 -Webcam feed flipped horizontally.
 
 # Screenshots (Add at least 3)
-<img title="" alt="" scr=>
-
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-
-### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+<img title="" alt="" src="1.png">
+<img title="" alt="" src="2.png">
+<img title="" alt="" src="3.png">
+<img title="" alt="" src="4.png">
+<img title="" alt="" src="5.png">
 
 
 ## Team Contributions
