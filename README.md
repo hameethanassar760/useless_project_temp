@@ -49,7 +49,7 @@ For Software:
 -Drawing board mirroring strokes in real-time.
 -Webcam feed flipped horizontally.
 
-# Screenshots (Add at least 3)
+# Screenshots
 <img title="" alt="" src="1.png">
 <img title="" alt="" src="2.png">
 <img title="" alt="" src="3.png">
